@@ -1,0 +1,37 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+}
+
+model Sweet {
+  id        String   @id @default(uuid())
+  name      String   @unique  // <-- add this
+  category  String
+  price     Float
+  quantity  Int
+  createdAt DateTime @default(now())
+}
+
+
+enum Role {
+  USER
+  ADMIN
+}
+model Order {
+  id        String   @id @default(uuid())
+  userId    String
+  total     Float
+  createdAt DateTime @default(now())
+}
